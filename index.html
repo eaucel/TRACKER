@@ -115,7 +115,7 @@ body::before {
 }
 .salary-card:hover { transform: scale(1.02); }
 .salary-card .sc-label { font-size: 11px; font-weight: 700; opacity: 0.85; margin-bottom: 2px; }
-.salary-card .sc-amount { font-family: 'Fredoka One', sans-serif; font-size: 24px; letter-spacing: 0.5px; }
+.salary-card .sc-amount { font-family: 'Fredoka One', sans-serif; font-size: 22px; letter-spacing: 0.5px; }
 .salary-card .sc-sub { font-size: 11px; opacity: 0.75; margin-top: 2px; }
 
 .leftover-pill {
@@ -125,6 +125,7 @@ body::before {
 }
 .leftover-pill .lp-label { font-size: 11px; font-weight: 700; color: var(--muted); }
 .leftover-pill .lp-amount { font-family: 'Fredoka One', sans-serif; font-size: 20px; }
+.leftover-pill .lp-period { font-size: 10px; font-weight: 700; color: var(--muted); margin-top: 2px; }
 
 /* MAIN */
 .main { margin-left: 230px; padding: 2rem; }
@@ -183,18 +184,29 @@ body::before {
 .stat-card.blue .stat-value { color: var(--sky); }
 .stat-card.yellow .stat-value { color: var(--yellow); }
 
-/* SALARY HERO SECTION */
-.salary-hero {
-  background: linear-gradient(135deg, #b47fee 0%, #ff84c4 50%, #ffb085 100%);
+/* PAY PERIOD HERO */
+.pay-period-hero {
   border-radius: var(--r); padding: 2rem; margin-bottom: 1.75rem;
   color: #fff; position: relative; overflow: hidden;
   box-shadow: 0 8px 32px rgba(180,127,238,0.35);
 }
-.salary-hero::before {
+.pay-period-hero.first-half {
+  background: linear-gradient(135deg, #b47fee 0%, #ff84c4 60%, #ffb085 100%);
+}
+.pay-period-hero.second-half {
+  background: linear-gradient(135deg, #74b9ff 0%, #9b5de5 60%, #ff84c4 100%);
+}
+.pay-period-hero::before {
   content: '✨'; position: absolute; right: 2rem; top: 1rem; font-size: 64px; opacity: 0.15;
 }
-.salary-hero::after {
+.pay-period-hero::after {
   content: '💸'; position: absolute; right: 5rem; bottom: 0.5rem; font-size: 48px; opacity: 0.12;
+}
+.ph-period-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 99px; padding: 4px 14px; font-size: 11px; font-weight: 800;
+  margin-bottom: 0.75rem; backdrop-filter: blur(4px);
 }
 .sh-label { font-size: 13px; font-weight: 800; opacity: 0.85; margin-bottom: 4px; }
 .sh-amount { font-family: 'Fredoka One', sans-serif; font-size: 44px; letter-spacing: 1px; margin-bottom: 1.25rem; }
@@ -208,6 +220,42 @@ body::before {
   border-radius: var(--rs); padding: 0.5rem 1rem;
   display: inline-flex; align-items: center; gap: 8px; margin-top: 1rem;
   font-weight: 800; font-size: 15px; backdrop-filter: blur(4px);
+}
+
+/* PAY PERIOD SPLIT CARDS */
+.pay-split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.75rem; }
+.pay-split-card {
+  border-radius: var(--r); padding: 1.5rem; color: #fff; position: relative; overflow: hidden;
+}
+.pay-split-card.p1 { background: linear-gradient(135deg, #b47fee, #ff84c4); box-shadow: 0 6px 24px rgba(180,127,238,0.3); }
+.pay-split-card.p2 { background: linear-gradient(135deg, #74b9ff, #9b5de5); box-shadow: 0 6px 24px rgba(116,185,255,0.3); }
+.pay-split-card.inactive { opacity: 0.7; }
+.psc-badge {
+  font-size: 10px; font-weight: 800; background: rgba(255,255,255,0.25);
+  border-radius: 99px; padding: 2px 10px; display: inline-block; margin-bottom: 0.5rem;
+}
+.psc-label { font-size: 12px; font-weight: 700; opacity: 0.8; margin-bottom: 3px; }
+.psc-amount { font-family: 'Fredoka One', sans-serif; font-size: 28px; }
+.psc-sub { font-size: 11px; opacity: 0.75; margin-top: 4px; }
+.psc-active-ring {
+  position: absolute; top: 10px; right: 10px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+}
+
+/* SALARY HERO SECTION */
+.salary-hero {
+  background: linear-gradient(135deg, #b47fee 0%, #ff84c4 50%, #ffb085 100%);
+  border-radius: var(--r); padding: 2rem; margin-bottom: 1.75rem;
+  color: #fff; position: relative; overflow: hidden;
+  box-shadow: 0 8px 32px rgba(180,127,238,0.35);
+}
+.salary-hero::before {
+  content: '✨'; position: absolute; right: 2rem; top: 1rem; font-size: 64px; opacity: 0.15;
+}
+.salary-hero::after {
+  content: '💸'; position: absolute; right: 5rem; bottom: 0.5rem; font-size: 48px; opacity: 0.12;
 }
 
 /* CARD */
@@ -246,6 +294,7 @@ tr:hover td { background: var(--bg3); }
 .badge-pink { background: rgba(255,132,196,0.1); color: var(--pink); border: 1px solid rgba(255,132,196,0.2); }
 .badge-gray { background: var(--bg4); color: var(--muted); border: 1px solid var(--border); }
 .badge-yellow { background: rgba(255,209,102,0.15); color: #a07000; border: 1px solid rgba(255,209,102,0.3); }
+.badge-purple { background: rgba(155,93,229,0.12); color: var(--accent2); border: 1px solid rgba(155,93,229,0.25); }
 
 /* PROGRESS */
 .progress-wrap { background: var(--bg4); border-radius: 99px; height: 10px; overflow: hidden; }
@@ -351,8 +400,18 @@ tr:hover td { background: var(--bg3); }
   background: var(--bg3); border: 1.5px solid var(--border); color: var(--muted2);
 }
 
+/* PAY PERIOD INFO BOX */
+.period-info-box {
+  background: var(--bg3); border: 2px solid var(--border2);
+  border-radius: var(--rs); padding: 0.75rem 1rem;
+  font-size: 12px; font-weight: 700; color: var(--muted2);
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 1rem;
+}
+
 @media (max-width: 900px) {
   .two-col { grid-template-columns: 1fr; }
+  .pay-split-grid { grid-template-columns: 1fr; }
   .main { margin-left: 0; padding: 1rem; }
   .sidebar { display: none; }
 }
@@ -391,13 +450,14 @@ tr:hover td { background: var(--bg3); }
 
   <div style="margin-top:auto">
     <div class="salary-card" onclick="openModal('modal-salary')">
-      <div class="sc-label">💼 Monthly Sahod</div>
+      <div class="sc-label" id="sidebar-period-label">💼 Monthly Sahod</div>
       <div class="sc-amount" id="sidebar-salary">Set salary</div>
-      <div class="sc-sub">click to update ✏️</div>
+      <div class="sc-sub" id="sidebar-period-sub">click to update ✏️</div>
     </div>
     <div class="leftover-pill">
-      <div class="lp-label">💰 Natitira</div>
+      <div class="lp-label">💰 Natitira — <span id="sidebar-period-name">This Period</span></div>
       <div class="lp-amount" id="sidebar-leftover" style="color:var(--mint)">₱0.00</div>
+      <div class="lp-period" id="sidebar-period-dates"></div>
     </div>
   </div>
 </nav>
@@ -416,6 +476,9 @@ tr:hover td { background: var(--bg3); }
   </div>
 
   <div id="dash-salary-hero"></div>
+
+  <!-- Pay Period Split Cards -->
+  <div id="dash-pay-split"></div>
 
   <div class="stats-grid">
     <div class="stat-card green"><div class="deco">📥</div>
@@ -481,6 +544,9 @@ tr:hover td { background: var(--bg3); }
   </div>
 
   <div id="sahod-hero"></div>
+
+  <!-- Pay Period Split on Sahod page -->
+  <div id="sahod-pay-split"></div>
 
   <div class="two-col">
     <div class="card">
@@ -593,16 +659,19 @@ tr:hover td { background: var(--bg3); }
   <div class="modal">
     <div class="modal-title">💼 I-set ang Sahod Mo</div>
     <div class="form-group">
-      <label class="form-label">Monthly Sahod (₱)</label>
+      <label class="form-label">Monthly Sahod (₱) — full month</label>
       <input type="number" class="form-input" id="sal-amount" placeholder="e.g. 25000">
     </div>
     <div class="form-group">
       <label class="form-label">Pay Schedule</label>
       <select class="form-input" id="sal-schedule">
-        <option value="monthly">Monthly (1x)</option>
-        <option value="semi">Semi-monthly (1st & 15th)</option>
+        <option value="monthly">Monthly (1x — buong buwan)</option>
+        <option value="semi" selected>Semi-monthly (1–15 at 16–31)</option>
         <option value="weekly">Weekly</option>
       </select>
+    </div>
+    <div id="semi-preview" style="background:var(--bg3);border-radius:var(--rs);padding:.75rem 1rem;font-size:13px;font-weight:700;color:var(--muted2);margin-top:.5rem;display:none">
+      📅 <span id="semi-preview-text"></span>
     </div>
     <div class="form-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-salary')">Cancel</button>
@@ -642,17 +711,28 @@ tr:hover td { background: var(--bg3); }
         </select>
       </div>
     </div>
-    <div class="form-group">
-      <label class="form-label">Category</label>
-      <select class="form-input" id="ded-cat">
-        <option value="Bills">Bills</option>
-        <option value="Food">Food</option>
-        <option value="Transport">Transport</option>
-        <option value="Health">Health</option>
-        <option value="Education">Education</option>
-        <option value="Family">Family</option>
-        <option value="Other">Other</option>
-      </select>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-input" id="ded-cat">
+          <option value="Bills">Bills</option>
+          <option value="Food">Food</option>
+          <option value="Transport">Transport</option>
+          <option value="Health">Health</option>
+          <option value="Education">Education</option>
+          <option value="Family">Family</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Bayad sa alin?</label>
+        <select class="form-input" id="ded-period">
+          <option value="both">Both cuts (÷2 each)</option>
+          <option value="first">1st cut (1–15)</option>
+          <option value="second">2nd cut (16–31)</option>
+          <option value="monthly">Full amount (monthly)</option>
+        </select>
+      </div>
     </div>
     <div class="form-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-deduction')">Cancel</button>
@@ -834,7 +914,7 @@ tr:hover td { background: var(--bg3); }
 
 <script>
 // ===== STATE =====
-let S = { salary:{ amount:0, schedule:'monthly' }, deductions:[], expenses:[], budgets:[], utangs:[], savings:[] };
+let S = { salary:{ amount:0, schedule:'semi' }, deductions:[], expenses:[], budgets:[], utangs:[], savings:[] };
 
 function load() {
   const d = localStorage.getItem('peratrack2');
@@ -846,6 +926,75 @@ const peso = n => '₱' + Number(n||0).toLocaleString('en-PH',{minimumFractionDi
 const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,5);
 const today = () => new Date().toISOString().split('T')[0];
 const nowMonth = () => { const n=new Date(); return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0'); };
+
+// ===== PAY PERIOD HELPERS =====
+function getCurrentPeriod() {
+  const d = new Date();
+  const day = d.getDate();
+  const y = d.getFullYear();
+  const m = d.getMonth() + 1;
+  const mm = String(m).padStart(2,'0');
+  if (day <= 15) {
+    return {
+      half: 1,
+      label: '1st Cut',
+      dates: `${y}-${mm}-01 to ${y}-${mm}-15`,
+      startDate: `${y}-${mm}-01`,
+      endDate: `${y}-${mm}-15`,
+      displayRange: `${formatMonthName(m)} 1–15`,
+      emoji: '🌅'
+    };
+  } else {
+    const lastDay = new Date(y, m, 0).getDate();
+    return {
+      half: 2,
+      label: '2nd Cut',
+      dates: `${y}-${mm}-16 to ${y}-${mm}-${lastDay}`,
+      startDate: `${y}-${mm}-16`,
+      endDate: `${y}-${mm}-${lastDay}`,
+      displayRange: `${formatMonthName(m)} 16–${lastDay}`,
+      emoji: '🌆'
+    };
+  }
+}
+
+function getPeriod(half, year, month) {
+  const mm = String(month).padStart(2,'0');
+  const lastDay = new Date(year, month, 0).getDate();
+  if (half === 1) {
+    return { startDate: `${year}-${mm}-01`, endDate: `${year}-${mm}-15` };
+  } else {
+    return { startDate: `${year}-${mm}-16`, endDate: `${year}-${mm}-${lastDay}` };
+  }
+}
+
+function getPeriodSalary() {
+  const sched = S.salary.schedule;
+  const base = S.salary.amount;
+  if (sched === 'semi') return base / 2;
+  if (sched === 'weekly') return base / 4.33;
+  return base;
+}
+
+function formatMonthName(m) {
+  return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m-1];
+}
+
+function expensesInPeriod(startDate, endDate) {
+  return S.expenses.filter(e => e.type === 'expense' && e.date >= startDate && e.date <= endDate)
+    .reduce((s,e) => s + e.amount, 0);
+}
+
+function deductionsForPeriod(half) {
+  return S.deductions.reduce((s,d) => {
+    if (d.period === 'both') return s + d.amount / 2;
+    if (d.period === 'first' && half === 1) return s + d.amount;
+    if (d.period === 'second' && half === 2) return s + d.amount;
+    if (d.period === 'monthly') return s + d.amount / 2;
+    if (!d.period) return s + d.amount / 2; // legacy: treat as both
+    return s;
+  }, 0);
+}
 
 function toast(msg,type='success') {
   const t=document.getElementById('toast');
@@ -876,9 +1025,35 @@ function switchTab(tab,el,type) {
 function openModal(id) {
   document.getElementById(id).classList.add('open');
   const ed = document.getElementById('exp-date'); if(ed&&!ed.value) ed.value=today();
+  if(id==='modal-salary') updateSemiPreview();
 }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
+
+// Preview for semi-monthly
+function updateSemiPreview() {
+  const sched = document.getElementById('sal-schedule')?.value;
+  const amt = parseFloat(document.getElementById('sal-amount')?.value) || 0;
+  const prev = document.getElementById('semi-preview');
+  const prevTxt = document.getElementById('semi-preview-text');
+  if(!prev || !prevTxt) return;
+  if(sched === 'semi' && amt) {
+    prev.style.display = 'block';
+    prevTxt.textContent = `Matatanggap mo: ${peso(amt/2)} bawat cutoff (1–15 at 16–31)`;
+  } else if(sched === 'weekly' && amt) {
+    prev.style.display = 'block';
+    prevTxt.textContent = `Tinatayang: ${peso(amt/4.33)} bawat linggo`;
+  } else {
+    prev.style.display = 'none';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const ss = document.getElementById('sal-schedule');
+  const sa = document.getElementById('sal-amount');
+  if(ss) ss.addEventListener('change', updateSemiPreview);
+  if(sa) sa.addEventListener('input', updateSemiPreview);
+});
 
 // ===== SALARY =====
 function saveSalary() {
@@ -895,8 +1070,9 @@ function addDeduction() {
   const amount = parseFloat(document.getElementById('ded-amount').value);
   const icon = document.getElementById('ded-icon').value;
   const cat = document.getElementById('ded-cat').value;
+  const period = document.getElementById('ded-period').value;
   if(!name||!amount) { toast('Fill in all fields!','error'); return; }
-  S.deductions.push({id:uid(),name,amount,icon,cat});
+  S.deductions.push({id:uid(),name,amount,icon,cat,period});
   document.getElementById('ded-name').value='';
   document.getElementById('ded-amount').value='';
   closeModal('modal-deduction'); save(); toast('Deduction added! ✂️');
@@ -904,26 +1080,88 @@ function addDeduction() {
 
 function deleteDeduction(id) { S.deductions=S.deductions.filter(d=>d.id!==id); save(); toast('Deleted.','error'); }
 
+// ===== PAY PERIOD SPLIT CARDS RENDERER =====
+function renderPaySplitCards(targetId) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  if (!S.salary.amount) { el.innerHTML = ''; return; }
+
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = now.getMonth() + 1;
+  const cur = getCurrentPeriod();
+
+  const p1 = getPeriod(1, y, m);
+  const p2 = getPeriod(2, y, m);
+  const lastDay = new Date(y, m, 0).getDate();
+
+  const periodSalary = getPeriodSalary();
+  const ded1 = deductionsForPeriod(1);
+  const ded2 = deductionsForPeriod(2);
+  const exp1 = expensesInPeriod(p1.startDate, p1.endDate);
+  const exp2 = expensesInPeriod(p2.startDate, p2.endDate);
+  const left1 = periodSalary - ded1 - exp1;
+  const left2 = periodSalary - ded2 - exp2;
+  const isFirst = cur.half === 1;
+  const isSemi = S.salary.schedule === 'semi';
+
+  if (!isSemi) {
+    el.innerHTML = '';
+    return;
+  }
+
+  el.innerHTML = `<div class="pay-split-grid" style="margin-bottom:1.75rem">
+    <div class="pay-split-card p1 ${isFirst?'':'inactive'}">
+      ${isFirst ? '<div class="psc-active-ring"></div>' : ''}
+      <div class="psc-badge">${isFirst ? '📍 Ngayon' : '✅ Tapos na'}</div>
+      <div class="psc-label">1st Cut — ${formatMonthName(m)} 1–15</div>
+      <div class="psc-amount">${peso(left1)}</div>
+      <div class="psc-sub">natitira · ${peso(periodSalary)} sahod - ${peso(ded1)} bills - ${peso(exp1)} gastos</div>
+    </div>
+    <div class="pay-split-card p2 ${!isFirst?'':'inactive'}">
+      ${!isFirst ? '<div class="psc-active-ring"></div>' : ''}
+      <div class="psc-badge">${!isFirst ? '📍 Ngayon' : '⏳ Susunod'}</div>
+      <div class="psc-label">2nd Cut — ${formatMonthName(m)} 16–${lastDay}</div>
+      <div class="psc-amount">${peso(left2)}</div>
+      <div class="psc-sub">natitira · ${peso(periodSalary)} sahod - ${peso(ded2)} bills - ${peso(exp2)} gastos</div>
+    </div>
+  </div>`;
+}
+
 function renderSahod() {
+  const isSemi = S.salary.schedule === 'semi';
+  const cur = getCurrentPeriod();
+  const periodSalary = getPeriodSalary();
+
   // Sidebar
   const ss = document.getElementById('sidebar-salary');
-  if(ss) ss.textContent = S.salary.amount ? peso(S.salary.amount) : 'Set salary →';
-  // Salary modal pre-fill
+  if (ss) ss.textContent = S.salary.amount ? peso(S.salary.amount) : 'Set salary →';
+  const slbl = document.getElementById('sidebar-period-label');
+  if (slbl) slbl.textContent = isSemi ? `💼 ${cur.emoji} ${cur.label} — ${cur.displayRange}` : '💼 Monthly Sahod';
+  const ssub = document.getElementById('sidebar-period-sub');
+  if (ssub) ssub.textContent = isSemi ? `${peso(periodSalary)} per cutoff · click to update ✏️` : 'click to update ✏️';
   const sa = document.getElementById('sal-amount'); if(sa&&S.salary.amount) sa.value=S.salary.amount;
+  const sch = document.getElementById('sal-schedule'); if(sch) sch.value = S.salary.schedule || 'semi';
 
-  const totalDed = S.deductions.reduce((s,d)=>s+d.amount,0);
-  const month = nowMonth();
-  const mExp = S.expenses.filter(e=>e.date.startsWith(month)&&e.type==='expense');
-  const totalExpenses = mExp.reduce((s,e)=>s+e.amount,0);
-  const leftover = S.salary.amount - totalDed - totalExpenses;
+  const now = new Date();
+  const y = now.getFullYear(); const m = now.getMonth()+1;
+  const p = isSemi ? getPeriod(cur.half, y, m) : { startDate: nowMonth()+'-01', endDate: nowMonth()+'-31' };
+  const totalDed = deductionsForPeriod(cur.half);
+  const expThisPeriod = expensesInPeriod(p.startDate, p.endDate);
+  const leftover = periodSalary - totalDed - expThisPeriod;
 
+  // Sidebar leftover
   const sl = document.getElementById('sidebar-leftover');
-  if(sl) { sl.textContent=peso(leftover); sl.style.color=leftover>=0?'var(--mint)':'var(--red)'; }
+  if (sl) { sl.textContent = peso(leftover); sl.style.color = leftover>=0?'var(--mint)':'var(--red)'; }
+  const spn = document.getElementById('sidebar-period-name');
+  if (spn) spn.textContent = isSemi ? cur.label : 'This Month';
+  const spd = document.getElementById('sidebar-period-dates');
+  if (spd) spd.textContent = isSemi ? cur.displayRange : '';
 
   // Hero on sahod page
   const sh = document.getElementById('sahod-hero');
-  if(!sh) return;
-  if(!S.salary.amount) {
+  if (!sh) return;
+  if (!S.salary.amount) {
     sh.innerHTML=`<div class="salary-setup-cta">
       <div style="font-size:48px;margin-bottom:.75rem">💼</div>
       <div style="font-family:'Fredoka One',sans-serif;font-size:22px;margin-bottom:.5rem">I-set mo muna ang sahod mo!</div>
@@ -931,47 +1169,58 @@ function renderSahod() {
       <button class="btn btn-primary" onclick="openModal('modal-salary')"><i class="ti ti-cash"></i> Set Sahod Ko</button>
     </div>`; return;
   }
-  const pctDed = S.salary.amount ? Math.min(100,(totalDed/S.salary.amount)*100) : 0;
-  const pctExp = S.salary.amount ? Math.min(100,(totalExpenses/S.salary.amount)*100) : 0;
+
+  const totalMonthlyDed = S.deductions.reduce((s,d)=>s+d.amount,0);
+  const fullMonthExp = S.expenses.filter(e=>e.date.startsWith(nowMonth())&&e.type==='expense').reduce((s,e)=>s+e.amount,0);
+
   sh.innerHTML=`<div class="salary-hero" style="margin-bottom:1.5rem">
-    <div class="sh-label">💼 Monthly Sahod</div>
+    <div class="sh-label">💼 Monthly Sahod (Full Month)</div>
     <div class="sh-amount">${peso(S.salary.amount)}</div>
     <div class="sh-breakdown">
-      <div class="sh-item"><div class="sh-item-label">Fixed Deductions</div><div class="sh-item-val">- ${peso(totalDed)}</div></div>
+      ${isSemi ? `<div class="sh-item"><div class="sh-item-label">Per Cutoff (÷2)</div><div class="sh-item-val">${peso(S.salary.amount/2)}</div></div><div class="sh-divider"></div>` : ''}
+      <div class="sh-item"><div class="sh-item-label">Fixed Deductions</div><div class="sh-item-val">- ${peso(totalMonthlyDed)}</div></div>
       <div class="sh-divider"></div>
-      <div class="sh-item"><div class="sh-item-label">Other Expenses</div><div class="sh-item-val">- ${peso(totalExpenses)}</div></div>
-      <div class="sh-divider"></div>
-      <div class="sh-item"><div class="sh-item-label">Natitira pa</div><div class="sh-item-val">${peso(Math.max(0,S.salary.amount-totalDed))}</div></div>
+      <div class="sh-item"><div class="sh-item-label">Other Expenses</div><div class="sh-item-val">- ${peso(fullMonthExp)}</div></div>
     </div>
-    <div class="leftover-highlight">
-      ${leftover>=0?'💚':'🔴'} Natitira mo ngayon: ${peso(leftover)}
-    </div>
+    ${isSemi ? `<div class="leftover-highlight">${cur.emoji} ${cur.label} (${cur.displayRange}): ${leftover>=0?'💚':'🔴'} ${peso(leftover)} natitira</div>` :
+    `<div class="leftover-highlight">${leftover>=0?'💚':'🔴'} Natitira mo: ${peso(leftover)}</div>`}
   </div>`;
+
+  // Pay split cards
+  renderPaySplitCards('sahod-pay-split');
 
   // Deduction list
   const dl = document.getElementById('deduction-list');
-  if(dl) {
+  if (dl) {
     if(!S.deductions.length) {
-      dl.innerHTML=`<div class="empty"><div class="empty-icon">✂️</div><p>Wala pang deductions. Idagdag ang bills mo!</p></div>`; }
-    else dl.innerHTML=S.deductions.map(d=>`
-      <div class="deduct-row">
-        <div class="deduct-icon" style="background:var(--bg3)">${d.icon}</div>
-        <div style="flex:1">
-          <div style="font-weight:800;font-size:14px">${d.name}</div>
-          <div style="font-size:11px;color:var(--muted);font-weight:600">${d.cat}</div>
-        </div>
-        <div style="font-family:'Fredoka One',sans-serif;font-size:17px;color:var(--red);margin-right:.75rem">- ${peso(d.amount)}</div>
-        <button class="btn btn-danger btn-sm" onclick="deleteDeduction('${d.id}')"><i class="ti ti-trash"></i></button>
-      </div>`).join('');
+      dl.innerHTML=`<div class="empty"><div class="empty-icon">✂️</div><p>Wala pang deductions. Idagdag ang bills mo!</p></div>`;
+    } else {
+      dl.innerHTML=S.deductions.map(d=>{
+        const periodLabel = {both:'Both cuts',first:'1st cut only',second:'2nd cut only',monthly:'Monthly total'}[d.period||'both']||'Both cuts';
+        const effectiveAmt = (d.period==='both'||!d.period||d.period==='monthly') ? d.amount/2 : d.amount;
+        return `<div class="deduct-row">
+          <div class="deduct-icon" style="background:var(--bg3)">${d.icon}</div>
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:14px">${d.name}</div>
+            <div style="font-size:11px;color:var(--muted);font-weight:600">${d.cat} · <span style="color:var(--accent2)">${periodLabel}</span></div>
+          </div>
+          <div style="text-align:right;margin-right:.75rem">
+            <div style="font-family:'Fredoka One',sans-serif;font-size:17px;color:var(--red)">- ${peso(effectiveAmt)}<span style="font-size:11px;opacity:.6">/cut</span></div>
+            ${(d.period==='both'||!d.period||d.period==='monthly')?`<div style="font-size:10px;color:var(--muted);font-weight:700">₱${d.amount.toLocaleString()} total/month</div>`:''}
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="deleteDeduction('${d.id}')"><i class="ti ti-trash"></i></button>
+        </div>`;
+      }).join('');
+    }
   }
 
-  // Breakdown bars
+  // Breakdown bars (full month)
   const bb = document.getElementById('sahod-breakdown-bars');
-  if(bb && S.salary.amount) {
+  if (bb && S.salary.amount) {
     const items = [
-      {label:'Fixed Bills', amount:totalDed, color:'var(--red)'},
-      {label:'Other Gastos', amount:totalExpenses, color:'var(--peach)'},
-      {label:'Natitira', amount:Math.max(0,leftover), color:'var(--mint)'},
+      {label:'Fixed Bills', amount:totalMonthlyDed, color:'var(--red)'},
+      {label:'Other Gastos', amount:fullMonthExp, color:'var(--peach)'},
+      {label:'Natitira', amount:Math.max(0, S.salary.amount-totalMonthlyDed-fullMonthExp), color:'var(--mint)'},
     ];
     bb.innerHTML = items.map(it=>{
       const pct = Math.min(100,(it.amount/S.salary.amount)*100);
@@ -983,16 +1232,17 @@ function renderSahod() {
     }).join('');
   }
 
-  // Monthly tracker (last 6 months)
+  // Monthly tracker
   const mt = document.getElementById('monthly-tracker');
   if(mt && S.salary.amount) {
     const months = [];
     for(let i=5;i>=0;i--) {
       const d=new Date(); d.setMonth(d.getMonth()-i);
-      const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
-      const label=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+      const ky=d.getFullYear(); const km=d.getMonth()+1;
+      const key=ky+'-'+String(km).padStart(2,'0');
+      const label=formatMonthName(km);
       const exp=S.expenses.filter(e=>e.date.startsWith(key)&&e.type==='expense').reduce((s,e)=>s+e.amount,0);
-      const left=Math.max(0, S.salary.amount-totalDed-exp);
+      const left=Math.max(0, S.salary.amount-totalMonthlyDed-exp);
       months.push({key,label,exp,left});
     }
     mt.innerHTML=`<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:.75rem">
@@ -1214,6 +1464,23 @@ function renderCalendar(){
   const items=[];
   S.utangs.filter(u=>u.due&&u.status==='active').forEach(u=>items.push({date:u.due,label:`${u.type==='owe'?'💸 Bayaran':'💰 Kolektahin'}: ${u.name}`,amount:u.amount,color:u.type==='owe'?'var(--red)':'var(--mint)'}));
   S.savings.filter(s=>s.deadline&&s.current<s.target).forEach(s=>items.push({date:s.deadline,label:`${s.icon} ${s.name} deadline`,amount:s.target-s.current,color:'var(--sky)'}));
+
+  // For semi-monthly, show next pay date
+  if(S.salary.schedule==='semi') {
+    const cur = getCurrentPeriod();
+    const now = new Date();
+    const y = now.getFullYear(); const m = now.getMonth()+1;
+    const mm = String(m).padStart(2,'0');
+    const lastDay = new Date(y,m,0).getDate();
+    if(cur.half===1) {
+      items.push({date:`${y}-${mm}-15`,label:`💼 2nd Cut Sahod (${peso(S.salary.amount/2)})`,amount:S.salary.amount/2,color:'var(--mint)'});
+    } else {
+      const nextM = m===12?1:m+1; const nextY = m===12?y+1:y;
+      const nextMM = String(nextM).padStart(2,'0');
+      items.push({date:`${nextY}-${nextMM}-15`,label:`💼 1st Cut Sahod (${peso(S.salary.amount/2)})`,amount:S.salary.amount/2,color:'var(--mint)'});
+    }
+  }
+
   S.deductions.forEach(d=>{
     const next=new Date();next.setDate(1);next.setMonth(next.getMonth()+1);
     const key=next.toISOString().split('T')[0];
@@ -1241,7 +1508,7 @@ function renderCalendar(){
 
 function daysUntil(d){
   const diff=Math.ceil((new Date(d)-new Date(today()))/86400000);
-  if(diff===0)return'📍 Today!';if(diff===1)return'⏰ Tomorrow!';return`In ${diff} days`;
+  if(diff===0)return'📍 Today!';if(diff===1)return'⏰ Tomorrow!';if(diff<0)return`${Math.abs(diff)} days ago`;return`In ${diff} days`;
 }
 
 // ===== DASHBOARD =====
@@ -1252,8 +1519,18 @@ function renderDashboard(){
   const expenses=mExp.filter(e=>e.type==='expense').reduce((s,e)=>s+e.amount,0);
   const utangTotal=S.utangs.filter(u=>u.type==='owe'&&u.status==='active').reduce((s,u)=>s+u.amount,0);
   const iponTotal=S.savings.reduce((s,v)=>s+v.current,0);
-  const totalDed=S.deductions.reduce((s,d)=>s+d.amount,0);
-  const leftover=S.salary.amount-(totalDed+expenses);
+  const totalMonthlyDed=S.deductions.reduce((s,d)=>s+d.amount,0);
+
+  const isSemi = S.salary.schedule==='semi';
+  const cur = getCurrentPeriod();
+  const now = new Date();
+  const y = now.getFullYear(); const m = now.getMonth()+1;
+  const p = isSemi ? getPeriod(cur.half, y, m) : { startDate: nowMonth()+'-01', endDate: nowMonth()+'-31' };
+  const periodSalary = getPeriodSalary();
+  const periodDed = deductionsForPeriod(cur.half);
+  const periodExp = expensesInPeriod(p.startDate, p.endDate);
+  const periodLeftover = periodSalary - periodDed - periodExp;
+  const fullLeftover = S.salary.amount - totalMonthlyDed - expenses;
 
   const di=document.getElementById('dash-income');if(di)di.textContent=peso(income);
   const de=document.getElementById('dash-expense-total');if(de)de.textContent=peso(expenses);
@@ -1263,19 +1540,20 @@ function renderDashboard(){
   // Salary hero on dashboard
   const dsh=document.getElementById('dash-salary-hero');
   if(dsh&&S.salary.amount){
-    dsh.innerHTML=`<div class="salary-hero" style="margin-bottom:1.75rem">
-      <div class="sh-label">💼 Sahod Mo This Month</div>
-      <div class="sh-amount">${peso(S.salary.amount)}</div>
+    dsh.innerHTML=`<div class="${isSemi?'pay-period-hero '+(cur.half===1?'first-half':'second-half'):'salary-hero'}" style="margin-bottom:1.75rem">
+      ${isSemi?`<div class="ph-period-badge">${cur.emoji} ${cur.label} · ${cur.displayRange}</div>`:''}
+      <div class="sh-label">💼 ${isSemi?'Per Cutoff na Sahod':'Monthly Sahod'}</div>
+      <div class="sh-amount">${peso(isSemi?periodSalary:S.salary.amount)}</div>
       <div class="sh-breakdown">
-        <div class="sh-item"><div class="sh-item-label">Fixed Bills</div><div class="sh-item-val">- ${peso(totalDed)}</div></div>
+        <div class="sh-item"><div class="sh-item-label">Fixed Bills</div><div class="sh-item-val">- ${peso(isSemi?periodDed:totalMonthlyDed)}</div></div>
         <div class="sh-divider"></div>
-        <div class="sh-item"><div class="sh-item-label">Other Gastos</div><div class="sh-item-val">- ${peso(expenses)}</div></div>
+        <div class="sh-item"><div class="sh-item-label">${isSemi?'Gastos this cut':'Other Gastos'}</div><div class="sh-item-val">- ${peso(isSemi?periodExp:expenses)}</div></div>
         <div class="sh-divider"></div>
         <div class="sh-item"><div class="sh-item-label">Utang Mo</div><div class="sh-item-val">${peso(utangTotal)}</div></div>
       </div>
       <div class="leftover-highlight">
-        ${leftover>=0?'💚':'🔴'} Natitira mo: ${peso(leftover)}
-        ${leftover<0?'<span style="font-size:12px;opacity:0.8"> — over budget ka na!</span>':''}
+        ${periodLeftover>=0?'💚':'🔴'} Natitira mo ${isSemi?'this cut':'ngayon'}: ${peso(isSemi?periodLeftover:fullLeftover)}
+        ${periodLeftover<0?'<span style="font-size:12px;opacity:0.8"> — over budget ka na!</span>':''}
       </div>
     </div>`;
   } else if(dsh&&!S.salary.amount){
@@ -1286,6 +1564,9 @@ function renderDashboard(){
       <button class="btn btn-primary" onclick="openModal('modal-salary')"><i class="ti ti-cash"></i> Set Sahod</button>
     </div>`;
   }
+
+  // Pay split cards on dashboard
+  renderPaySplitCards('dash-pay-split');
 
   // Recent
   const rec=document.getElementById('dash-recent');

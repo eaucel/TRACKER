@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeraTrack 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root {
+  --bg: #fdf6ff;
+  --bg2: #fff;
+  --bg3: #f7effe;
+  --bg4: #efe8fb;
+  --card: #ffffff;
+  --border: #ecdff8;
+  --border2: #d9c8f5;
+  --text: #2d1f4e;
+  --muted: #9b89bb;
+  --muted2: #7b6a99;
+  --accent: #b47fee;
+  --accent2: #9b5de5;
+  --pink: #ff84c4;
+  --peach: #ffb085;
+  --mint: #5dc9a8;
+  --sky: #74b9ff;
+  --yellow: #ffd166;
+  --red: #ff6b8a;
+  --lavender: #c8b4fa;
+  --r: 18px;
+  --rs: 10px;
+  --shadow: 0 4px 20px rgba(180,127,238,0.12);
+  --shadow2: 0 2px 10px rgba(180,127,238,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(180,127,238,0.07) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(255,132,196,0.07) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(116,185,255,0.04) 0%, transparent 60%);
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed; left: 0; top: 0; bottom: 0; width: 230px;
+  background: var(--card);
+  border-right: 2px solid var(--border);
+  display: flex; flex-direction: column;
+  z-index: 100;
+  box-shadow: 4px 0 24px rgba(180,127,238,0.08);
+}
+
+.logo {
+  padding: 1.5rem 1.25rem 1rem;
+  border-bottom: 2px solid var(--border);
+}
+.logo-row { display: flex; align-items: center; gap: 10px; }
+.logo-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--pink));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.logo-title {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 22px; letter-spacing: 0.5px;
+  background: linear-gradient(135deg, var(--accent2), var(--pink));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.logo-sub { font-size: 11px; color: var(--muted); margin-top: 2px; font-weight: 600; }
+
+.nav-group { padding: 0.75rem 0.75rem 0; }
+.nav-label {
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--muted); padding: 0 0.5rem 0.4rem;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0.6rem 0.75rem; border-radius: var(--rs);
+  cursor: pointer; font-size: 13.5px; font-weight: 700;
+  color: var(--muted2); transition: all 0.18s;
+  margin-bottom: 2px;
+}
+.nav-item:hover { background: var(--bg3); color: var(--text); transform: translateX(2px); }
+.nav-item.active {
+  background: linear-gradient(135deg, rgba(180,127,238,0.18), rgba(255,132,196,0.1));
+  color: var(--accent2);
+  border: 1.5px solid rgba(180,127,238,0.2);
+}
+.nav-item i { font-size: 18px; }
+.nav-badge {
+  margin-left: auto; background: var(--red); color: #fff;
+  font-size: 10px; font-weight: 800; padding: 1px 7px;
+  border-radius: 99px;
+}
+
+.salary-card {
+  margin: 0.75rem; border-radius: var(--r);
+  background: linear-gradient(135deg, #b47fee, #ff84c4);
+  padding: 1rem 1.1rem; color: #fff;
+  cursor: pointer; transition: transform 0.2s;
+  box-shadow: 0 6px 20px rgba(180,127,238,0.35);
+}
+.salary-card:hover { transform: scale(1.02); }
+.salary-card .sc-label { font-size: 11px; font-weight: 700; opacity: 0.85; margin-bottom: 2px; }
+.salary-card .sc-amount { font-family: 'Fredoka One', sans-serif; font-size: 24px; letter-spacing: 0.5px; }
+.salary-card .sc-sub { font-size: 11px; opacity: 0.75; margin-top: 2px; }
+
+.leftover-pill {
+  margin: 0 0.75rem 0.75rem;
+  background: var(--bg3); border: 2px solid var(--border);
+  border-radius: var(--rs); padding: 0.75rem 1rem;
+}
+.leftover-pill .lp-label { font-size: 11px; font-weight: 700; color: var(--muted); }
+.leftover-pill .lp-amount { font-family: 'Fredoka One', sans-serif; font-size: 20px; }
+
+/* MAIN */
+.main { margin-left: 230px; padding: 2rem; }
+.page { display: none; animation: fadeIn 0.25s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* TOPBAR */
+.topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.75rem; }
+.page-title { font-family: 'Fredoka One', sans-serif; font-size: 28px; letter-spacing: 0.3px; color: var(--text); }
+.page-title .sub { font-family: 'Nunito', sans-serif; font-size: 13px; color: var(--muted); font-weight: 600; margin-top: 1px; }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 0.55rem 1.15rem; border-radius: var(--rs);
+  font-size: 13px; font-weight: 800; cursor: pointer;
+  border: none; transition: all 0.17s; font-family: 'Nunito', sans-serif;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent2), var(--pink));
+  color: #fff; box-shadow: 0 4px 14px rgba(155,93,229,0.35);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(155,93,229,0.45); }
+.btn-sm { padding: 0.35rem 0.75rem; font-size: 12px; }
+.btn-ghost {
+  background: var(--bg3); color: var(--muted2);
+  border: 1.5px solid var(--border2);
+}
+.btn-ghost:hover { background: var(--bg4); color: var(--text); }
+.btn-danger { background: rgba(255,107,138,0.12); color: var(--red); border: 1.5px solid rgba(255,107,138,0.25); }
+.btn-success { background: rgba(93,201,168,0.12); color: var(--mint); border: 1.5px solid rgba(93,201,168,0.25); }
+.btn-yellow { background: rgba(255,209,102,0.15); color: #c07c00; border: 1.5px solid rgba(255,209,102,0.3); }
+
+/* STAT CARDS */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px,1fr)); gap: 1rem; margin-bottom: 1.75rem; }
+.stat-card {
+  background: var(--card); border: 2px solid var(--border);
+  border-radius: var(--r); padding: 1.1rem 1.2rem;
+  box-shadow: var(--shadow2); position: relative; overflow: hidden;
+  transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-card .deco {
+  position: absolute; right: -10px; top: -10px;
+  font-size: 60px; opacity: 0.08; user-select: none;
+  transform: rotate(15deg);
+}
+.stat-label { font-size: 11.5px; font-weight: 800; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.6px; }
+.stat-value { font-family: 'Fredoka One', sans-serif; font-size: 26px; letter-spacing: 0.3px; }
+.stat-sub { font-size: 11px; color: var(--muted); margin-top: 3px; font-weight: 600; }
+.stat-card.salary .stat-value { color: var(--accent2); }
+.stat-card.green .stat-value { color: var(--mint); }
+.stat-card.red .stat-value { color: var(--red); }
+.stat-card.amber .stat-value { color: var(--peach); }
+.stat-card.blue .stat-value { color: var(--sky); }
+.stat-card.yellow .stat-value { color: var(--yellow); }
+
+/* SALARY HERO SECTION */
+.salary-hero {
+  background: linear-gradient(135deg, #b47fee 0%, #ff84c4 50%, #ffb085 100%);
+  border-radius: var(--r); padding: 2rem; margin-bottom: 1.75rem;
+  color: #fff; position: relative; overflow: hidden;
+  box-shadow: 0 8px 32px rgba(180,127,238,0.35);
+}
+.salary-hero::before {
+  content: '✨'; position: absolute; right: 2rem; top: 1rem; font-size: 64px; opacity: 0.15;
+}
+.salary-hero::after {
+  content: '💸'; position: absolute; right: 5rem; bottom: 0.5rem; font-size: 48px; opacity: 0.12;
+}
+.sh-label { font-size: 13px; font-weight: 800; opacity: 0.85; margin-bottom: 4px; }
+.sh-amount { font-family: 'Fredoka One', sans-serif; font-size: 44px; letter-spacing: 1px; margin-bottom: 1.25rem; }
+.sh-breakdown { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.sh-item { }
+.sh-item-label { font-size: 11px; opacity: 0.75; font-weight: 700; }
+.sh-item-val { font-family: 'Fredoka One', sans-serif; font-size: 18px; }
+.sh-divider { width: 1.5px; background: rgba(255,255,255,0.3); border-radius: 99px; }
+.leftover-highlight {
+  background: rgba(255,255,255,0.2); border: 1.5px solid rgba(255,255,255,0.35);
+  border-radius: var(--rs); padding: 0.5rem 1rem;
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 1rem;
+  font-weight: 800; font-size: 15px; backdrop-filter: blur(4px);
+}
+
+/* CARD */
+.card {
+  background: var(--card); border: 2px solid var(--border);
+  border-radius: var(--r); padding: 1.5rem;
+  margin-bottom: 1.5rem; box-shadow: var(--shadow2);
+}
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+.card-title { font-size: 15px; font-weight: 800; color: var(--text); }
+.card-sub { font-size: 11.5px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+
+/* TWO COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+/* TABLE */
+.table-wrap { overflow-x: auto; border-radius: var(--rs); }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { text-align: left; padding: 0.6rem 0.9rem; color: var(--muted); font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; background: var(--bg3); }
+th:first-child { border-radius: 10px 0 0 10px; }
+th:last-child { border-radius: 0 10px 10px 0; }
+td { padding: 0.75rem 0.9rem; border-bottom: 1.5px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg3); }
+
+/* BADGE */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 800;
+}
+.badge-mint { background: rgba(93,201,168,0.12); color: var(--mint); border: 1px solid rgba(93,201,168,0.25); }
+.badge-red { background: rgba(255,107,138,0.1); color: var(--red); border: 1px solid rgba(255,107,138,0.2); }
+.badge-peach { background: rgba(255,176,133,0.12); color: var(--peach); border: 1px solid rgba(255,176,133,0.25); }
+.badge-sky { background: rgba(116,185,255,0.12); color: var(--sky); border: 1px solid rgba(116,185,255,0.25); }
+.badge-lavender { background: rgba(200,180,250,0.15); color: var(--accent2); border: 1px solid rgba(200,180,250,0.3); }
+.badge-pink { background: rgba(255,132,196,0.1); color: var(--pink); border: 1px solid rgba(255,132,196,0.2); }
+.badge-gray { background: var(--bg4); color: var(--muted); border: 1px solid var(--border); }
+.badge-yellow { background: rgba(255,209,102,0.15); color: #a07000; border: 1px solid rgba(255,209,102,0.3); }
+
+/* PROGRESS */
+.progress-wrap { background: var(--bg4); border-radius: 99px; height: 10px; overflow: hidden; }
+.progress-bar { height: 100%; border-radius: 99px; transition: width 0.5s cubic-bezier(.34,1.56,.64,1); }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(45,31,78,0.4);
+  display: none; align-items: center; justify-content: center;
+  z-index: 300; backdrop-filter: blur(6px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--card); border: 2px solid var(--border);
+  border-radius: 24px; padding: 2rem; width: 480px;
+  max-width: 95vw; max-height: 92vh; overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(155,93,229,0.25);
+  animation: popIn 0.25s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn { from { transform: scale(0.88) translateY(20px); opacity: 0; } to { transform: none; opacity: 1; } }
+.modal-title { font-family: 'Fredoka One', sans-serif; font-size: 22px; margin-bottom: 1.5rem; color: var(--text); }
+.form-group { margin-bottom: 1rem; }
+.form-label { font-size: 12px; font-weight: 800; color: var(--muted2); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-input {
+  width: 100%; background: var(--bg3); border: 2px solid var(--border);
+  border-radius: var(--rs); padding: 0.65rem 0.9rem;
+  color: var(--text); font-size: 14px; font-family: 'Nunito', sans-serif;
+  font-weight: 700; outline: none; transition: border-color 0.15s;
+}
+.form-input:focus { border-color: var(--accent); background: var(--bg2); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-actions { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem;
+  background: var(--card); border: 2px solid var(--border);
+  border-radius: var(--rs); padding: 0.75rem 1.25rem;
+  font-size: 13px; font-weight: 800; z-index: 999;
+  box-shadow: var(--shadow); display: none;
+  animation: popIn 0.2s cubic-bezier(.34,1.56,.64,1);
+}
+.toast.show { display: flex; align-items: center; gap: 8px; }
+.toast.success { border-left: 4px solid var(--mint); }
+.toast.error { border-left: 4px solid var(--red); }
+
+/* AVATAR */
+.avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800;
+}
+
+/* IPON CARDS */
+.ipon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+.ipon-card {
+  background: var(--card); border: 2px solid var(--border);
+  border-radius: var(--r); padding: 1.25rem;
+  box-shadow: var(--shadow2); transition: transform 0.2s;
+}
+.ipon-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+
+/* TABS */
+.tabs { display: flex; gap: 3px; background: var(--bg4); padding: 4px; border-radius: var(--rs); width: fit-content; margin-bottom: 1.5rem; }
+.tab { padding: 0.45rem 1.1rem; border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer; color: var(--muted); transition: all 0.17s; }
+.tab.active { background: var(--card); color: var(--accent2); box-shadow: 0 2px 8px rgba(155,93,229,0.15); }
+
+/* BUDGET ITEM */
+.budget-item { padding: 1rem 0; border-bottom: 2px solid var(--border); }
+.budget-item:last-child { border-bottom: none; }
+
+/* EMPTY */
+.empty { text-align: center; padding: 2.5rem 1rem; color: var(--muted); }
+.empty .empty-icon { font-size: 52px; margin-bottom: 0.75rem; }
+.empty p { font-size: 13.5px; font-weight: 700; }
+
+/* MONTHLY BREAKDOWN BARS */
+.month-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.month-bar-label { font-size: 12px; font-weight: 700; color: var(--muted2); width: 80px; flex-shrink: 0; text-align: right; }
+.month-bar-track { flex: 1; background: var(--bg4); border-radius: 99px; height: 10px; overflow: hidden; }
+.month-bar-fill { height: 100%; border-radius: 99px; transition: width 0.5s ease; }
+.month-bar-val { font-size: 12px; font-weight: 800; width: 80px; flex-shrink: 0; }
+
+/* DEDUCTION LIST */
+.deduct-row {
+  display: flex; align-items: center; gap: 12px; padding: 0.7rem 0;
+  border-bottom: 1.5px solid var(--border);
+}
+.deduct-row:last-child { border-bottom: none; }
+.deduct-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+
+/* SALARY SETUP */
+.salary-setup-cta {
+  text-align: center; padding: 2rem;
+  background: linear-gradient(135deg, rgba(180,127,238,0.08), rgba(255,132,196,0.06));
+  border: 2px dashed var(--border2); border-radius: var(--r); margin-bottom: 1.5rem;
+}
+
+/* CHIP */
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 800;
+  background: var(--bg3); border: 1.5px solid var(--border); color: var(--muted2);
+}
+
+@media (max-width: 900px) {
+  .two-col { grid-template-columns: 1fr; }
+  .main { margin-left: 0; padding: 1rem; }
+  .sidebar { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="logo">
+    <div class="logo-row">
+      <div class="logo-icon">🌸</div>
+      <div>
+        <div class="logo-title">PeraTrack</div>
+        <div class="logo-sub">money tracker ng buhay</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">Overview</div>
+    <div class="nav-item active" onclick="goTo('dashboard')"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Pera Ko</div>
+    <div class="nav-item" onclick="goTo('sahod')"><i class="ti ti-cash"></i> Sahod & Gastos</div>
+    <div class="nav-item" onclick="goTo('budget')"><i class="ti ti-wallet"></i> Budget</div>
+    <div class="nav-item" onclick="goTo('expenses')"><i class="ti ti-receipt"></i> Lahat ng Gastos</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Iba Pa</div>
+    <div class="nav-item" onclick="goTo('utang')"><i class="ti ti-users"></i> Utang <span class="nav-badge" id="utang-badge">0</span></div>
+    <div class="nav-item" onclick="goTo('ipon')"><i class="ti ti-piggy-bank"></i> Ipon Goals</div>
+    <div class="nav-item" onclick="goTo('calendar')"><i class="ti ti-calendar-event"></i> Due Dates</div>
+  </div>
+
+  <div style="margin-top:auto">
+    <div class="salary-card" onclick="openModal('modal-salary')">
+      <div class="sc-label">💼 Monthly Sahod</div>
+      <div class="sc-amount" id="sidebar-salary">Set salary</div>
+      <div class="sc-sub">click to update ✏️</div>
+    </div>
+    <div class="leftover-pill">
+      <div class="lp-label">💰 Natitira</div>
+      <div class="lp-amount" id="sidebar-leftover" style="color:var(--mint)">₱0.00</div>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ===== DASHBOARD ===== -->
+<div id="page-dashboard" class="page active">
+  <div class="topbar">
+    <div>
+      <div class="page-title">Kumusta ka, ate/kuya! 👋</div>
+      <div class="page-title sub">Here's your money situation this month ✨</div>
+    </div>
+    <button class="btn btn-primary" onclick="openModal('modal-expense')"><i class="ti ti-plus"></i> Add Gastos</button>
+  </div>
+
+  <div id="dash-salary-hero"></div>
+
+  <div class="stats-grid">
+    <div class="stat-card green"><div class="deco">📥</div>
+      <div class="stat-label">Income</div>
+      <div class="stat-value" id="dash-income">₱0.00</div>
+      <div class="stat-sub">this month</div>
+    </div>
+    <div class="stat-card red"><div class="deco">📤</div>
+      <div class="stat-label">Expenses</div>
+      <div class="stat-value" id="dash-expense-total">₱0.00</div>
+      <div class="stat-sub">this month</div>
+    </div>
+    <div class="stat-card amber"><div class="deco">🤝</div>
+      <div class="stat-label">Utang</div>
+      <div class="stat-value" id="dash-utang">₱0.00</div>
+      <div class="stat-sub">outstanding</div>
+    </div>
+    <div class="stat-card blue"><div class="deco">🐷</div>
+      <div class="stat-label">Total Ipon</div>
+      <div class="stat-value" id="dash-ipon">₱0.00</div>
+      <div class="stat-sub">all goals</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">🧾 Recent Transactions</div></div>
+        <button class="btn btn-ghost btn-sm" onclick="goTo('expenses')">See all →</button>
+      </div>
+      <div id="dash-recent"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">📊 Breakdown ng Gastos</div></div>
+      </div>
+      <div id="dash-breakdown"></div>
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header"><div class="card-title">⏰ Upcoming Dues</div></div>
+      <div id="dash-dues"></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">🐷 Ipon Progress</div></div>
+      <div id="dash-ipon-progress"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SAHOD PAGE ===== -->
+<div id="page-sahod" class="page">
+  <div class="topbar">
+    <div>
+      <div class="page-title">Sahod & Gastos 💼</div>
+      <div class="page-title sub">I-set ang sahod mo, awtomatikong mag-dededuct ang mga gastos</div>
+    </div>
+    <div style="display:flex;gap:.75rem">
+      <button class="btn btn-ghost" onclick="openModal('modal-deduction')"><i class="ti ti-plus"></i> Add Deduction</button>
+      <button class="btn btn-primary" onclick="openModal('modal-salary')"><i class="ti ti-edit"></i> Set Sahod</button>
+    </div>
+  </div>
+
+  <div id="sahod-hero"></div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">📋 Monthly Deductions</div><div class="card-sub">Bills & fixed expenses na bawas sa sahod</div></div>
+        <button class="btn btn-ghost btn-sm" onclick="openModal('modal-deduction')"><i class="ti ti-plus"></i></button>
+      </div>
+      <div id="deduction-list"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">💸 Sahod Breakdown</div><div class="card-sub">Saan napupunta ang pera mo</div></div>
+      </div>
+      <div id="sahod-breakdown-bars"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="card-title">📅 Monthly Tracker</div><div class="card-sub">Natitira mo bawat buwan</div></div>
+    </div>
+    <div id="monthly-tracker"></div>
+  </div>
+</div>
+
+<!-- ===== BUDGET ===== -->
+<div id="page-budget" class="page">
+  <div class="topbar">
+    <div><div class="page-title">Budget Tracker 💜</div></div>
+    <button class="btn btn-primary" onclick="openModal('modal-budget')"><i class="ti ti-plus"></i> Add Category</button>
+  </div>
+  <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="stat-card salary"><div class="stat-label">Total Budget</div><div class="stat-value" id="bud-total">₱0.00</div></div>
+    <div class="stat-card red"><div class="stat-label">Spent</div><div class="stat-value" id="bud-spent">₱0.00</div></div>
+    <div class="stat-card green"><div class="stat-label">Remaining</div><div class="stat-value" id="bud-rem">₱0.00</div></div>
+  </div>
+  <div class="card"><div id="budget-list"></div></div>
+</div>
+
+<!-- ===== EXPENSES ===== -->
+<div id="page-expenses" class="page">
+  <div class="topbar">
+    <div><div class="page-title">Lahat ng Gastos 🧾</div></div>
+    <div style="display:flex;gap:.75rem;align-items:center">
+      <select class="form-input" id="exp-filter" style="width:150px;padding:.45rem .75rem;font-size:13px" onchange="renderExpenses()">
+        <option value="">All Categories</option>
+      </select>
+      <button class="btn btn-primary" onclick="openModal('modal-expense')"><i class="ti ti-plus"></i> Add</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="table-wrap">
+      <table><thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Type</th><th>Amount</th><th></th></tr></thead>
+      <tbody id="expense-table"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UTANG ===== -->
+<div id="page-utang" class="page">
+  <div class="topbar">
+    <div><div class="page-title">Utang Tracker 🤝</div></div>
+    <button class="btn btn-primary" onclick="openModal('modal-utang')"><i class="ti ti-plus"></i> Add Utang</button>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('all',this,'utang')">Lahat</div>
+    <div class="tab" onclick="switchTab('owe',this,'utang')">Utang Ko</div>
+    <div class="tab" onclick="switchTab('lent',this,'utang')">Pinahiram</div>
+    <div class="tab" onclick="switchTab('paid',this,'utang')">Bayad Na</div>
+  </div>
+  <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="stat-card red"><div class="stat-label">Utang Ko</div><div class="stat-value" id="ut-owe">₱0.00</div></div>
+    <div class="stat-card green"><div class="stat-label">Pinahiram Ko</div><div class="stat-value" id="ut-lent">₱0.00</div></div>
+    <div class="stat-card blue"><div class="stat-label">Net</div><div class="stat-value" id="ut-net">₱0.00</div></div>
+  </div>
+  <div class="card">
+    <div class="table-wrap">
+      <table><thead><tr><th>Person</th><th>Type</th><th>Amount</th><th>Due Date</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody id="utang-table"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== IPON ===== -->
+<div id="page-ipon" class="page">
+  <div class="topbar">
+    <div><div class="page-title">Ipon Goals 🐷</div></div>
+    <button class="btn btn-primary" onclick="openModal('modal-saving')"><i class="ti ti-plus"></i> New Goal</button>
+  </div>
+  <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="stat-card blue"><div class="stat-label">Total Naiipon</div><div class="stat-value" id="ipon-saved">₱0.00</div></div>
+    <div class="stat-card yellow"><div class="stat-label">Target</div><div class="stat-value" id="ipon-target">₱0.00</div></div>
+    <div class="stat-card green"><div class="stat-label">Completed</div><div class="stat-value" id="ipon-done">0 🎉</div></div>
+  </div>
+  <div class="ipon-grid" id="ipon-grid"></div>
+</div>
+
+<!-- ===== CALENDAR ===== -->
+<div id="page-calendar" class="page">
+  <div class="topbar"><div><div class="page-title">Due Dates 📅</div></div></div>
+  <div class="card"><div id="calendar-list"></div></div>
+</div>
+
+</main>
+
+<!-- ===== MODALS ===== -->
+
+<!-- Salary -->
+<div class="modal-overlay" id="modal-salary">
+  <div class="modal">
+    <div class="modal-title">💼 I-set ang Sahod Mo</div>
+    <div class="form-group">
+      <label class="form-label">Monthly Sahod (₱)</label>
+      <input type="number" class="form-input" id="sal-amount" placeholder="e.g. 25000">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Pay Schedule</label>
+      <select class="form-input" id="sal-schedule">
+        <option value="monthly">Monthly (1x)</option>
+        <option value="semi">Semi-monthly (1st & 15th)</option>
+        <option value="weekly">Weekly</option>
+      </select>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-salary')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSalary()">Save Sahod 💼</button>
+    </div>
+  </div>
+</div>
+
+<!-- Deduction -->
+<div class="modal-overlay" id="modal-deduction">
+  <div class="modal">
+    <div class="modal-title">➕ Add Deduction</div>
+    <div class="form-group">
+      <label class="form-label">Name ng Gastos</label>
+      <input type="text" class="form-input" id="ded-name" placeholder="e.g. Renta, WIFI, Netflix…">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Amount (₱)</label>
+        <input type="number" class="form-input" id="ded-amount" placeholder="0.00">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Icon</label>
+        <select class="form-input" id="ded-icon">
+          <option value="🏠">🏠 Renta/Bahay</option>
+          <option value="💡">💡 Kuryente</option>
+          <option value="💧">💧 Tubig</option>
+          <option value="📶">📶 WIFI/Load</option>
+          <option value="🚌">🚌 Transpo</option>
+          <option value="🍜">🍜 Pagkain</option>
+          <option value="💊">💊 Gamot</option>
+          <option value="📱">📱 Phone</option>
+          <option value="🎓">🎓 Tuition</option>
+          <option value="🙏">🙏 Remittance</option>
+          <option value="💳">💳 Loan Payment</option>
+          <option value="📌">📌 Iba pa</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Category</label>
+      <select class="form-input" id="ded-cat">
+        <option value="Bills">Bills</option>
+        <option value="Food">Food</option>
+        <option value="Transport">Transport</option>
+        <option value="Health">Health</option>
+        <option value="Education">Education</option>
+        <option value="Family">Family</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-deduction')">Cancel</button>
+      <button class="btn btn-primary" onclick="addDeduction()">Add Deduction</button>
+    </div>
+  </div>
+</div>
+
+<!-- Expense -->
+<div class="modal-overlay" id="modal-expense">
+  <div class="modal">
+    <div class="modal-title">🧾 Add Transaction</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Type</label>
+        <select class="form-input" id="exp-type">
+          <option value="expense">Expense 📤</option>
+          <option value="income">Income 📥</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Amount (₱)</label>
+        <input type="number" class="form-input" id="exp-amount" placeholder="0.00" min="0">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <input type="text" class="form-input" id="exp-desc" placeholder="Ano ito?">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-input" id="exp-cat">
+          <option value="Food">🍜 Food</option>
+          <option value="Transport">🚌 Transport</option>
+          <option value="Bills">💡 Bills</option>
+          <option value="Shopping">🛍️ Shopping</option>
+          <option value="Health">💊 Health</option>
+          <option value="Education">📚 Education</option>
+          <option value="Entertainment">🎮 Entertainment</option>
+          <option value="Salary">💼 Salary</option>
+          <option value="Other">📌 Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date</label>
+        <input type="date" class="form-input" id="exp-date">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-expense')">Cancel</button>
+      <button class="btn btn-primary" onclick="addExpense()">Save ✨</button>
+    </div>
+  </div>
+</div>
+
+<!-- Budget -->
+<div class="modal-overlay" id="modal-budget">
+  <div class="modal">
+    <div class="modal-title">💜 Add Budget Category</div>
+    <div class="form-group">
+      <label class="form-label">Category</label>
+      <select class="form-input" id="bud-cat">
+        <option value="Food">🍜 Food</option>
+        <option value="Transport">🚌 Transport</option>
+        <option value="Bills">💡 Bills</option>
+        <option value="Shopping">🛍️ Shopping</option>
+        <option value="Health">💊 Health</option>
+        <option value="Education">📚 Education</option>
+        <option value="Entertainment">🎮 Entertainment</option>
+        <option value="Other">📌 Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Monthly Limit (₱)</label>
+      <input type="number" class="form-input" id="bud-limit" placeholder="e.g. 5000">
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-budget')">Cancel</button>
+      <button class="btn btn-primary" onclick="addBudget()">Save 💜</button>
+    </div>
+  </div>
+</div>
+
+<!-- Utang -->
+<div class="modal-overlay" id="modal-utang">
+  <div class="modal">
+    <div class="modal-title">🤝 Add Utang</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Type</label>
+        <select class="form-input" id="ut-type">
+          <option value="owe">Utang Ko 😬</option>
+          <option value="lent">Pinahiram Ko 🤲</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Amount (₱)</label>
+        <input type="number" class="form-input" id="ut-amount" placeholder="0.00">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Sino?</label>
+      <input type="text" class="form-input" id="ut-name" placeholder="Name ng tao">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Reason</label>
+        <input type="text" class="form-input" id="ut-note" placeholder="Optional">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Due Date</label>
+        <input type="date" class="form-input" id="ut-due">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-utang')">Cancel</button>
+      <button class="btn btn-primary" onclick="addUtang()">Save 🤝</button>
+    </div>
+  </div>
+</div>
+
+<!-- Saving -->
+<div class="modal-overlay" id="modal-saving">
+  <div class="modal">
+    <div class="modal-title">🐷 New Ipon Goal</div>
+    <div class="form-group">
+      <label class="form-label">Goal Name</label>
+      <input type="text" class="form-input" id="sav-name" placeholder="e.g. Emergency Fund, Bakasyon…">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Target (₱)</label>
+        <input type="number" class="form-input" id="sav-target" placeholder="0.00">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Naiipon Na (₱)</label>
+        <input type="number" class="form-input" id="sav-current" placeholder="0.00">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Icon</label>
+        <select class="form-input" id="sav-icon">
+          <option>🏠</option><option>✈️</option><option>📱</option>
+          <option>🚗</option><option>🎓</option><option>🆘</option>
+          <option>💍</option><option>💰</option><option>🎮</option><option>👟</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Deadline</label>
+        <input type="date" class="form-input" id="sav-deadline">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-saving')">Cancel</button>
+      <button class="btn btn-primary" onclick="addSaving()">Create Goal 🐷</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add to Saving -->
+<div class="modal-overlay" id="modal-add-sav">
+  <div class="modal">
+    <div class="modal-title">💰 Mag-ipon!</div>
+    <input type="hidden" id="add-sav-id">
+    <div class="form-group">
+      <label class="form-label">Magkano idadagdag? (₱)</label>
+      <input type="number" class="form-input" id="add-sav-amt" placeholder="0.00">
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-sav')">Cancel</button>
+      <button class="btn btn-primary" onclick="addToSaving()">Add 💸</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== STATE =====
+let S = { salary:{ amount:0, schedule:'monthly' }, deductions:[], expenses:[], budgets:[], utangs:[], savings:[] };
+
+function load() {
+  const d = localStorage.getItem('peratrack2');
+  if(d) try { S = {...S, ...JSON.parse(d) }; } catch(e){}
+}
+function save() { localStorage.setItem('peratrack2', JSON.stringify(S)); renderAll(); }
+
+const peso = n => '₱' + Number(n||0).toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2});
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const today = () => new Date().toISOString().split('T')[0];
+const nowMonth = () => { const n=new Date(); return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0'); };
+
+function toast(msg,type='success') {
+  const t=document.getElementById('toast');
+  t.className='toast show '+type;
+  t.innerHTML=`${type==='success'?'✅':'❌'} ${msg}`;
+  setTimeout(()=>t.className='toast',2500);
+}
+
+// ===== NAV =====
+function goTo(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    if((n.getAttribute('onclick')||'').includes(page)) n.classList.add('active');
+  });
+  renderAll();
+}
+
+let utangTab='all';
+function switchTab(tab,el,type) {
+  if(type==='utang') utangTab=tab;
+  el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderAll();
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  const ed = document.getElementById('exp-date'); if(ed&&!ed.value) ed.value=today();
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
+
+// ===== SALARY =====
+function saveSalary() {
+  const amt = parseFloat(document.getElementById('sal-amount').value);
+  if(!amt) { toast('Ilagay ang sahod mo!','error'); return; }
+  S.salary.amount = amt;
+  S.salary.schedule = document.getElementById('sal-schedule').value;
+  closeModal('modal-salary');
+  save(); toast('Sahod na-save! 💼');
+}
+
+function addDeduction() {
+  const name = document.getElementById('ded-name').value.trim();
+  const amount = parseFloat(document.getElementById('ded-amount').value);
+  const icon = document.getElementById('ded-icon').value;
+  const cat = document.getElementById('ded-cat').value;
+  if(!name||!amount) { toast('Fill in all fields!','error'); return; }
+  S.deductions.push({id:uid(),name,amount,icon,cat});
+  document.getElementById('ded-name').value='';
+  document.getElementById('ded-amount').value='';
+  closeModal('modal-deduction'); save(); toast('Deduction added! ✂️');
+}
+
+function deleteDeduction(id) { S.deductions=S.deductions.filter(d=>d.id!==id); save(); toast('Deleted.','error'); }
+
+function renderSahod() {
+  // Sidebar
+  const ss = document.getElementById('sidebar-salary');
+  if(ss) ss.textContent = S.salary.amount ? peso(S.salary.amount) : 'Set salary →';
+  // Salary modal pre-fill
+  const sa = document.getElementById('sal-amount'); if(sa&&S.salary.amount) sa.value=S.salary.amount;
+
+  const totalDed = S.deductions.reduce((s,d)=>s+d.amount,0);
+  const month = nowMonth();
+  const mExp = S.expenses.filter(e=>e.date.startsWith(month)&&e.type==='expense');
+  const totalExpenses = mExp.reduce((s,e)=>s+e.amount,0);
+  const leftover = S.salary.amount - totalDed - totalExpenses;
+
+  const sl = document.getElementById('sidebar-leftover');
+  if(sl) { sl.textContent=peso(leftover); sl.style.color=leftover>=0?'var(--mint)':'var(--red)'; }
+
+  // Hero on sahod page
+  const sh = document.getElementById('sahod-hero');
+  if(!sh) return;
+  if(!S.salary.amount) {
+    sh.innerHTML=`<div class="salary-setup-cta">
+      <div style="font-size:48px;margin-bottom:.75rem">💼</div>
+      <div style="font-family:'Fredoka One',sans-serif;font-size:22px;margin-bottom:.5rem">I-set mo muna ang sahod mo!</div>
+      <div style="font-size:13px;color:var(--muted);font-weight:700;margin-bottom:1rem">Para makita mo kung magkano natitira sayo.</div>
+      <button class="btn btn-primary" onclick="openModal('modal-salary')"><i class="ti ti-cash"></i> Set Sahod Ko</button>
+    </div>`; return;
+  }
+  const pctDed = S.salary.amount ? Math.min(100,(totalDed/S.salary.amount)*100) : 0;
+  const pctExp = S.salary.amount ? Math.min(100,(totalExpenses/S.salary.amount)*100) : 0;
+  sh.innerHTML=`<div class="salary-hero" style="margin-bottom:1.5rem">
+    <div class="sh-label">💼 Monthly Sahod</div>
+    <div class="sh-amount">${peso(S.salary.amount)}</div>
+    <div class="sh-breakdown">
+      <div class="sh-item"><div class="sh-item-label">Fixed Deductions</div><div class="sh-item-val">- ${peso(totalDed)}</div></div>
+      <div class="sh-divider"></div>
+      <div class="sh-item"><div class="sh-item-label">Other Expenses</div><div class="sh-item-val">- ${peso(totalExpenses)}</div></div>
+      <div class="sh-divider"></div>
+      <div class="sh-item"><div class="sh-item-label">Natitira pa</div><div class="sh-item-val">${peso(Math.max(0,S.salary.amount-totalDed))}</div></div>
+    </div>
+    <div class="leftover-highlight">
+      ${leftover>=0?'💚':'🔴'} Natitira mo ngayon: ${peso(leftover)}
+    </div>
+  </div>`;
+
+  // Deduction list
+  const dl = document.getElementById('deduction-list');
+  if(dl) {
+    if(!S.deductions.length) {
+      dl.innerHTML=`<div class="empty"><div class="empty-icon">✂️</div><p>Wala pang deductions. Idagdag ang bills mo!</p></div>`; }
+    else dl.innerHTML=S.deductions.map(d=>`
+      <div class="deduct-row">
+        <div class="deduct-icon" style="background:var(--bg3)">${d.icon}</div>
+        <div style="flex:1">
+          <div style="font-weight:800;font-size:14px">${d.name}</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600">${d.cat}</div>
+        </div>
+        <div style="font-family:'Fredoka One',sans-serif;font-size:17px;color:var(--red);margin-right:.75rem">- ${peso(d.amount)}</div>
+        <button class="btn btn-danger btn-sm" onclick="deleteDeduction('${d.id}')"><i class="ti ti-trash"></i></button>
+      </div>`).join('');
+  }
+
+  // Breakdown bars
+  const bb = document.getElementById('sahod-breakdown-bars');
+  if(bb && S.salary.amount) {
+    const items = [
+      {label:'Fixed Bills', amount:totalDed, color:'var(--red)'},
+      {label:'Other Gastos', amount:totalExpenses, color:'var(--peach)'},
+      {label:'Natitira', amount:Math.max(0,leftover), color:'var(--mint)'},
+    ];
+    bb.innerHTML = items.map(it=>{
+      const pct = Math.min(100,(it.amount/S.salary.amount)*100);
+      return `<div class="month-bar-row">
+        <div class="month-bar-label">${it.label}</div>
+        <div class="month-bar-track"><div class="month-bar-fill" style="width:${pct}%;background:${it.color}"></div></div>
+        <div class="month-bar-val" style="color:${it.color}">${peso(it.amount)}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // Monthly tracker (last 6 months)
+  const mt = document.getElementById('monthly-tracker');
+  if(mt && S.salary.amount) {
+    const months = [];
+    for(let i=5;i>=0;i--) {
+      const d=new Date(); d.setMonth(d.getMonth()-i);
+      const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+      const label=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+      const exp=S.expenses.filter(e=>e.date.startsWith(key)&&e.type==='expense').reduce((s,e)=>s+e.amount,0);
+      const left=Math.max(0, S.salary.amount-totalDed-exp);
+      months.push({key,label,exp,left});
+    }
+    mt.innerHTML=`<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:.75rem">
+      ${months.map(m=>{
+        const pct=Math.min(100,(m.left/S.salary.amount)*100);
+        const isNow=m.key===nowMonth();
+        return `<div style="text-align:center;background:${isNow?'var(--bg3)':'transparent'};border-radius:var(--rs);padding:.75rem .5rem;border:${isNow?'2px solid var(--border2)':'2px solid transparent'}">
+          <div style="font-size:11px;font-weight:800;color:var(--muted);margin-bottom:.5rem">${m.label}${isNow?' 📍':''}</div>
+          <div style="height:80px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:.4rem">
+            <div style="width:28px;background:${pct>50?'var(--mint)':pct>25?'var(--yellow)':'var(--red)'};border-radius:4px 4px 0 0;height:${Math.max(4,pct)}%;transition:height .4s ease"></div>
+          </div>
+          <div style="font-size:11px;font-weight:800;color:${pct>50?'var(--mint)':pct>25?'var(--peach)':'var(--red)'}">${peso(m.left)}</div>
+          <div style="font-size:10px;color:var(--muted);font-weight:700">natitira</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+}
+
+// ===== EXPENSES =====
+const catColors = {Food:'var(--peach)',Transport:'var(--sky)',Bills:'var(--red)',Shopping:'var(--pink)',Health:'var(--mint)',Education:'var(--lavender)',Entertainment:'var(--sky)',Salary:'var(--mint)',Other:'var(--muted)'};
+
+function addExpense() {
+  const type=document.getElementById('exp-type').value;
+  const amount=parseFloat(document.getElementById('exp-amount').value);
+  const desc=document.getElementById('exp-desc').value.trim();
+  const cat=document.getElementById('exp-cat').value;
+  const date=document.getElementById('exp-date').value||today();
+  if(!amount||!desc){toast('Fill all fields!','error');return;}
+  S.expenses.push({id:uid(),type,amount,desc,cat,date});
+  document.getElementById('exp-amount').value='';
+  document.getElementById('exp-desc').value='';
+  closeModal('modal-expense'); save(); toast('Transaction saved! ✨');
+}
+
+function deleteExpense(id){S.expenses=S.expenses.filter(e=>e.id!==id);save();toast('Deleted.','error');}
+
+function renderExpenses() {
+  const f=document.getElementById('exp-filter')?.value||'';
+  const list=f?S.expenses.filter(e=>e.cat===f):S.expenses;
+  const sorted=[...list].sort((a,b)=>b.date.localeCompare(a.date));
+  const tb=document.getElementById('expense-table');
+  if(!tb)return;
+  if(!sorted.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty"><div class="empty-icon">🧾</div><p>Wala pang transactions.</p></div></td></tr>`;return;}
+  tb.innerHTML=sorted.map(e=>`<tr>
+    <td style="color:var(--muted);font-size:12px;font-weight:700">${e.date}</td>
+    <td style="font-weight:800">${e.desc}</td>
+    <td><span style="color:${catColors[e.cat]||'var(--muted)'};font-size:12px;font-weight:800">${e.cat}</span></td>
+    <td><span class="badge ${e.type==='income'?'badge-mint':'badge-red'}">${e.type==='income'?'Income':'Expense'}</span></td>
+    <td style="font-family:'Fredoka One',sans-serif;font-size:15px;color:${e.type==='income'?'var(--mint)':'var(--red)'}">${e.type==='income'?'+':'-'}${peso(e.amount)}</td>
+    <td><button class="btn btn-danger btn-sm" onclick="deleteExpense('${e.id}')"><i class="ti ti-trash"></i></button></td>
+  </tr>`).join('');
+  const cats=[...new Set(S.expenses.map(e=>e.cat))];
+  const sel=document.getElementById('exp-filter');
+  if(sel){const cur=sel.value;sel.innerHTML='<option value="">All Categories</option>'+cats.map(c=>`<option value="${c}"${c===cur?' selected':''}>${c}</option>`).join('');}
+}
+
+// ===== BUDGET =====
+function addBudget() {
+  const cat=document.getElementById('bud-cat').value;
+  const limit=parseFloat(document.getElementById('bud-limit').value);
+  if(!limit){toast('Enter a limit!','error');return;}
+  const ex=S.budgets.findIndex(b=>b.cat===cat);
+  if(ex>=0)S.budgets[ex].limit=limit; else S.budgets.push({id:uid(),cat,limit});
+  document.getElementById('bud-limit').value='';
+  closeModal('modal-budget'); save(); toast('Budget saved! 💜');
+}
+function deleteBudget(id){S.budgets=S.budgets.filter(b=>b.id!==id);save();toast('Deleted.','error');}
+
+function renderBudget() {
+  const month=nowMonth();
+  const mExp=S.expenses.filter(e=>e.type==='expense'&&e.date.startsWith(month));
+  let tl=0,ts=0;
+  const bl=document.getElementById('budget-list');
+  if(!bl)return;
+  if(!S.budgets.length){bl.innerHTML=`<div class="empty"><div class="empty-icon">💜</div><p>Wala pang budget categories.</p></div>`;
+    ['bud-total','bud-spent','bud-rem'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=peso(0);});return;}
+  bl.innerHTML=S.budgets.map(b=>{
+    const spent=mExp.filter(e=>e.cat===b.cat).reduce((s,e)=>s+e.amount,0);
+    const pct=Math.min(100,(spent/b.limit)*100);
+    tl+=b.limit;ts+=spent;
+    const color=pct>=100?'var(--red)':pct>=75?'var(--peach)':'var(--mint)';
+    return `<div class="budget-item">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="font-weight:800;font-size:14px">${b.cat}</div>
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <span style="font-size:13px;color:var(--muted);font-weight:700">${peso(spent)} / ${peso(b.limit)}</span>
+          <span class="badge ${pct>=100?'badge-red':pct>=75?'badge-peach':'badge-mint'}">${Math.round(pct)}%</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteBudget('${b.id}')"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+      <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%;background:${color}"></div></div>
+    </div>`;
+  }).join('');
+  const bt=document.getElementById('bud-total');if(bt)bt.textContent=peso(tl);
+  const bsp=document.getElementById('bud-spent');if(bsp)bsp.textContent=peso(ts);
+  const br=document.getElementById('bud-rem');if(br)br.textContent=peso(tl-ts);
+}
+
+// ===== UTANG =====
+function addUtang(){
+  const type=document.getElementById('ut-type').value;
+  const amount=parseFloat(document.getElementById('ut-amount').value);
+  const name=document.getElementById('ut-name').value.trim();
+  const note=document.getElementById('ut-note').value.trim();
+  const due=document.getElementById('ut-due').value;
+  if(!amount||!name){toast('Punan ang lahat!','error');return;}
+  S.utangs.push({id:uid(),type,amount,name,note,due,status:'active',date:today()});
+  ['ut-amount','ut-name','ut-note','ut-due'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  closeModal('modal-utang');save();toast('Utang recorded! 🤝');
+}
+function markPaid(id){const u=S.utangs.find(u=>u.id===id);if(u){u.status=u.status==='paid'?'active':'paid';save();toast(u.status==='paid'?'Bayad na! 🎉':'Back to active!');}}
+function deleteUtang(id){S.utangs=S.utangs.filter(u=>u.id!==id);save();toast('Deleted.','error');}
+
+function renderUtang(){
+  const tb=document.getElementById('utang-table');
+  if(!tb)return;
+  let list=S.utangs;
+  if(utangTab==='owe')list=list.filter(u=>u.type==='owe'&&u.status==='active');
+  else if(utangTab==='lent')list=list.filter(u=>u.type==='lent'&&u.status==='active');
+  else if(utangTab==='paid')list=list.filter(u=>u.status==='paid');
+  else list=list.filter(u=>u.status==='active');
+  const owe=S.utangs.filter(u=>u.type==='owe'&&u.status==='active').reduce((s,u)=>s+u.amount,0);
+  const lent=S.utangs.filter(u=>u.type==='lent'&&u.status==='active').reduce((s,u)=>s+u.amount,0);
+  const utEl=document.getElementById('ut-owe');if(utEl)utEl.textContent=peso(owe);
+  const ltEl=document.getElementById('ut-lent');if(ltEl)ltEl.textContent=peso(lent);
+  const net=lent-owe;
+  const ntEl=document.getElementById('ut-net');if(ntEl){ntEl.textContent=peso(Math.abs(net));ntEl.className='stat-value '+(net>=0?'green':'red');}
+  document.getElementById('utang-badge').textContent=S.utangs.filter(u=>u.status==='active').length;
+  if(!list.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty"><div class="empty-icon">🤝</div><p>Wala dito!</p></div></td></tr>`;return;}
+  tb.innerHTML=list.map(u=>{
+    const over=u.due&&u.due<today()&&u.status==='active';
+    return `<tr>
+      <td><div style="display:flex;align-items:center;gap:8px">
+        <div class="avatar" style="background:${u.type==='owe'?'rgba(255,107,138,0.12)':'rgba(93,201,168,0.12)'};color:${u.type==='owe'?'var(--red)':'var(--mint)'}">${u.name[0].toUpperCase()}</div>
+        <div><div style="font-weight:800;font-size:13px">${u.name}</div><div style="font-size:11px;color:var(--muted);font-weight:600">${u.note||'—'}</div></div>
+      </div></td>
+      <td><span class="badge ${u.type==='owe'?'badge-red':'badge-mint'}">${u.type==='owe'?'Utang Ko':'Pinahiram'}</span></td>
+      <td style="font-family:'Fredoka One',sans-serif;font-size:15px;color:${u.type==='owe'?'var(--red)':'var(--mint)'}">${peso(u.amount)}</td>
+      <td style="font-size:12px;font-weight:700;color:${over?'var(--red)':'var(--muted)'}">${u.due?(over?'⚠️ ':'')+u.due:'—'}</td>
+      <td><span class="badge ${u.status==='paid'?'badge-mint':'badge-yellow'}">${u.status==='paid'?'✅ Bayad':'Active'}</span></td>
+      <td style="display:flex;gap:6px">
+        <button class="btn btn-success btn-sm" onclick="markPaid('${u.id}')"><i class="ti ti-${u.status==='paid'?'rotate':'check'}"></i></button>
+        <button class="btn btn-danger btn-sm" onclick="deleteUtang('${u.id}')"><i class="ti ti-trash"></i></button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ===== SAVINGS =====
+function addSaving(){
+  const name=document.getElementById('sav-name').value.trim();
+  const target=parseFloat(document.getElementById('sav-target').value);
+  const current=parseFloat(document.getElementById('sav-current').value)||0;
+  const icon=document.getElementById('sav-icon').value;
+  const deadline=document.getElementById('sav-deadline').value;
+  if(!name||!target){toast('Punan ang lahat!','error');return;}
+  S.savings.push({id:uid(),name,target,current,icon,deadline});
+  ['sav-name','sav-target','sav-current'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  closeModal('modal-saving');save();toast('Ipon goal created! 🐷');
+}
+function openAddSav(id){document.getElementById('add-sav-id').value=id;document.getElementById('add-sav-amt').value='';openModal('modal-add-sav');}
+function addToSaving(){
+  const id=document.getElementById('add-sav-id').value;
+  const amt=parseFloat(document.getElementById('add-sav-amt').value);
+  if(!amt){toast('Enter amount!','error');return;}
+  const s=S.savings.find(s=>s.id===id);
+  if(s){s.current=Math.min(s.target,s.current+amt);closeModal('modal-add-sav');save();toast('Na-add sa ipon! 💰');}
+}
+function deleteSaving(id){S.savings=S.savings.filter(s=>s.id!==id);save();toast('Deleted.','error');}
+
+function renderSavings(){
+  const g=document.getElementById('ipon-grid');
+  if(!g)return;
+  const ts=S.savings.reduce((s,v)=>s+v.current,0);
+  const tt=S.savings.reduce((s,v)=>s+v.target,0);
+  const done=S.savings.filter(s=>s.current>=s.target).length;
+  const isSaved=document.getElementById('ipon-saved');if(isSaved)isSaved.textContent=peso(ts);
+  const iTarget=document.getElementById('ipon-target');if(iTarget)iTarget.textContent=peso(tt);
+  const iDone=document.getElementById('ipon-done');if(iDone)iDone.textContent=done+' 🎉';
+  if(!S.savings.length){g.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🐷</div><p>Wala pang ipon goals. Gumawa ka na!</p></div>`;return;}
+  g.innerHTML=S.savings.map(s=>{
+    const pct=Math.min(100,(s.current/s.target)*100);
+    const fin=s.current>=s.target;
+    const barColor=fin?'var(--mint)':pct>=75?'var(--sky)':'var(--lavender)';
+    return `<div class="ipon-card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="font-size:32px">${s.icon}</div>
+          <div>
+            <div style="font-weight:800;font-size:14px">${s.name}</div>
+            <div style="font-size:11px;color:var(--muted);font-weight:600">${s.deadline?'📅 '+s.deadline:'Walang deadline'}</div>
+          </div>
+        </div>
+        ${fin?'<span class="badge badge-mint">🎉 Done!</span>':''}
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;font-weight:700">
+        <span style="color:var(--muted2)">${peso(s.current)}</span>
+        <span>${peso(s.target)}</span>
+      </div>
+      <div class="progress-wrap" style="margin-bottom:10px">
+        <div class="progress-bar" style="width:${pct}%;background:${barColor}"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="font-family:'Fredoka One',sans-serif;font-size:16px;color:${barColor}">${Math.round(pct)}%</span>
+        <div style="display:flex;gap:6px">
+          ${!fin?`<button class="btn btn-success btn-sm" onclick="openAddSav('${s.id}')"><i class="ti ti-plus"></i> Mag-ipon</button>`:''}
+          <button class="btn btn-danger btn-sm" onclick="deleteSaving('${s.id}')"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== CALENDAR =====
+function renderCalendar(){
+  const cl=document.getElementById('calendar-list');
+  if(!cl)return;
+  const items=[];
+  S.utangs.filter(u=>u.due&&u.status==='active').forEach(u=>items.push({date:u.due,label:`${u.type==='owe'?'💸 Bayaran':'💰 Kolektahin'}: ${u.name}`,amount:u.amount,color:u.type==='owe'?'var(--red)':'var(--mint)'}));
+  S.savings.filter(s=>s.deadline&&s.current<s.target).forEach(s=>items.push({date:s.deadline,label:`${s.icon} ${s.name} deadline`,amount:s.target-s.current,color:'var(--sky)'}));
+  S.deductions.forEach(d=>{
+    const next=new Date();next.setDate(1);next.setMonth(next.getMonth()+1);
+    const key=next.toISOString().split('T')[0];
+    items.push({date:key,label:`${d.icon} ${d.name} (monthly)`,amount:d.amount,color:'var(--peach)'});
+  });
+  items.sort((a,b)=>a.date.localeCompare(b.date));
+  if(!items.length){cl.innerHTML=`<div class="empty"><div class="empty-icon">📅</div><p>Wala pang upcoming dues.</p></div>`;return;}
+  cl.innerHTML=items.slice(0,15).map(i=>{
+    const over=i.date<today();
+    const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const d=new Date(i.date);
+    return `<div style="display:flex;align-items:center;gap:1rem;padding:.9rem 0;border-bottom:2px solid var(--border)">
+      <div style="text-align:center;min-width:52px;background:var(--bg3);border-radius:var(--rs);padding:.4rem;border:2px solid var(--border)">
+        <div style="font-family:'Fredoka One',sans-serif;font-size:20px;color:${over?'var(--red)':'var(--text)'}">${String(d.getDate()).padStart(2,'0')}</div>
+        <div style="font-size:10px;color:var(--muted);font-weight:800">${months[d.getMonth()]}</div>
+      </div>
+      <div style="flex:1">
+        <div style="font-weight:800;font-size:13.5px">${i.label}</div>
+        <div style="font-size:11px;color:var(--muted);font-weight:700;margin-top:2px">${over?'⚠️ Overdue!':daysUntil(i.date)}</div>
+      </div>
+      <div style="font-family:'Fredoka One',sans-serif;font-size:16px;color:${i.color}">${peso(i.amount)}</div>
+    </div>`;
+  }).join('');
+}
+
+function daysUntil(d){
+  const diff=Math.ceil((new Date(d)-new Date(today()))/86400000);
+  if(diff===0)return'📍 Today!';if(diff===1)return'⏰ Tomorrow!';return`In ${diff} days`;
+}
+
+// ===== DASHBOARD =====
+function renderDashboard(){
+  const month=nowMonth();
+  const mExp=S.expenses.filter(e=>e.date.startsWith(month));
+  const income=mExp.filter(e=>e.type==='income').reduce((s,e)=>s+e.amount,0);
+  const expenses=mExp.filter(e=>e.type==='expense').reduce((s,e)=>s+e.amount,0);
+  const utangTotal=S.utangs.filter(u=>u.type==='owe'&&u.status==='active').reduce((s,u)=>s+u.amount,0);
+  const iponTotal=S.savings.reduce((s,v)=>s+v.current,0);
+  const totalDed=S.deductions.reduce((s,d)=>s+d.amount,0);
+  const leftover=S.salary.amount-(totalDed+expenses);
+
+  const di=document.getElementById('dash-income');if(di)di.textContent=peso(income);
+  const de=document.getElementById('dash-expense-total');if(de)de.textContent=peso(expenses);
+  const du=document.getElementById('dash-utang');if(du)du.textContent=peso(utangTotal);
+  const dp=document.getElementById('dash-ipon');if(dp)dp.textContent=peso(iponTotal);
+
+  // Salary hero on dashboard
+  const dsh=document.getElementById('dash-salary-hero');
+  if(dsh&&S.salary.amount){
+    dsh.innerHTML=`<div class="salary-hero" style="margin-bottom:1.75rem">
+      <div class="sh-label">💼 Sahod Mo This Month</div>
+      <div class="sh-amount">${peso(S.salary.amount)}</div>
+      <div class="sh-breakdown">
+        <div class="sh-item"><div class="sh-item-label">Fixed Bills</div><div class="sh-item-val">- ${peso(totalDed)}</div></div>
+        <div class="sh-divider"></div>
+        <div class="sh-item"><div class="sh-item-label">Other Gastos</div><div class="sh-item-val">- ${peso(expenses)}</div></div>
+        <div class="sh-divider"></div>
+        <div class="sh-item"><div class="sh-item-label">Utang Mo</div><div class="sh-item-val">${peso(utangTotal)}</div></div>
+      </div>
+      <div class="leftover-highlight">
+        ${leftover>=0?'💚':'🔴'} Natitira mo: ${peso(leftover)}
+        ${leftover<0?'<span style="font-size:12px;opacity:0.8"> — over budget ka na!</span>':''}
+      </div>
+    </div>`;
+  } else if(dsh&&!S.salary.amount){
+    dsh.innerHTML=`<div class="salary-setup-cta" style="margin-bottom:1.75rem">
+      <div style="font-size:40px;margin-bottom:.5rem">💼</div>
+      <div style="font-family:'Fredoka One',sans-serif;font-size:18px;margin-bottom:.4rem">I-set ang sahod mo!</div>
+      <div style="font-size:13px;color:var(--muted);font-weight:700;margin-bottom:.75rem">Para makita kung magkano ang natitira sa'yo.</div>
+      <button class="btn btn-primary" onclick="openModal('modal-salary')"><i class="ti ti-cash"></i> Set Sahod</button>
+    </div>`;
+  }
+
+  // Recent
+  const rec=document.getElementById('dash-recent');
+  if(rec){
+    const recent=[...S.expenses].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
+    if(!recent.length)rec.innerHTML=`<div class="empty"><div class="empty-icon">🧾</div><p>Wala pang transactions.</p></div>`;
+    else rec.innerHTML=recent.map(e=>`
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:.65rem 0;border-bottom:2px solid var(--border)">
+        <div>
+          <div style="font-weight:800;font-size:13px">${e.desc}</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600">${e.cat} • ${e.date}</div>
+        </div>
+        <div style="font-family:'Fredoka One',sans-serif;font-size:15px;color:${e.type==='income'?'var(--mint)':'var(--red)'}">${e.type==='income'?'+':'-'}${peso(e.amount)}</div>
+      </div>`).join('');
+  }
+
+  // Breakdown
+  const brk=document.getElementById('dash-breakdown');
+  if(brk){
+    const cats=[...new Set(mExp.filter(e=>e.type==='expense').map(e=>e.cat))];
+    if(!cats.length)brk.innerHTML=`<div class="empty"><div class="empty-icon">📊</div><p>Wala pang expenses.</p></div>`;
+    else {
+      const max=Math.max(...cats.map(c=>mExp.filter(e=>e.cat===c).reduce((s,e)=>s+e.amount,0)));
+      brk.innerHTML=cats.map(c=>{
+        const amt=mExp.filter(e=>e.cat===c&&e.type==='expense').reduce((s,e)=>s+e.amount,0);
+        const pct=max>0?Math.round((amt/max)*100):0;
+        return `<div class="month-bar-row">
+          <div class="month-bar-label">${c}</div>
+          <div class="month-bar-track"><div class="month-bar-fill" style="width:${pct}%;background:${catColors[c]||'var(--lavender)'}"></div></div>
+          <div class="month-bar-val" style="color:${catColors[c]||'var(--lavender)'}">${peso(amt)}</div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // Dues
+  const dus=document.getElementById('dash-dues');
+  if(dus){
+    const dues=S.utangs.filter(u=>u.due&&u.status==='active').sort((a,b)=>a.due.localeCompare(b.due)).slice(0,3);
+    if(!dues.length)dus.innerHTML=`<div class="empty"><div class="empty-icon">⏰</div><p>Walang upcoming dues.</p></div>`;
+    else dus.innerHTML=dues.map(u=>`
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:.65rem 0;border-bottom:2px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="avatar" style="background:${u.type==='owe'?'rgba(255,107,138,0.12)':'rgba(93,201,168,0.12)'};color:${u.type==='owe'?'var(--red)':'var(--mint)'}">${u.name[0].toUpperCase()}</div>
+          <div><div style="font-weight:800;font-size:13px">${u.name}</div><div style="font-size:11px;color:var(--muted);font-weight:600">${u.due<today()?'⚠️ Overdue!':daysUntil(u.due)}</div></div>
+        </div>
+        <div style="font-family:'Fredoka One',sans-serif;font-size:15px;color:${u.type==='owe'?'var(--red)':'var(--mint)'}">${peso(u.amount)}</div>
+      </div>`).join('');
+  }
+
+  // Ipon progress
+  const ipp=document.getElementById('dash-ipon-progress');
+  if(ipp){
+    if(!S.savings.length)ipp.innerHTML=`<div class="empty"><div class="empty-icon">🐷</div><p>Wala pang ipon goals.</p></div>`;
+    else ipp.innerHTML=S.savings.slice(0,3).map(s=>{
+      const pct=Math.min(100,(s.current/s.target)*100);
+      return `<div style="padding:.65rem 0;border-bottom:2px solid var(--border)">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px;font-weight:800">
+          <span>${s.icon} ${s.name}</span><span style="color:var(--muted)">${Math.round(pct)}%</span>
+        </div>
+        <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%;background:var(--lavender)"></div></div>
+      </div>`;
+    }).join('');
+  }
+}
+
+function renderAll(){
+  renderDashboard();renderSahod();renderBudget();renderUtang();renderSavings();renderExpenses();renderCalendar();
+}
+
+document.querySelectorAll('input[type=date]').forEach(d=>{if(!d.value)d.value=today();});
+load(); renderAll();
+</script>
+</body>
+</html>
